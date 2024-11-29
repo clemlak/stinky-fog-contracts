@@ -29,4 +29,6 @@ event Create(
 
 event Pay(uint256 id, address indexed creator, address indexed worker, address indexed currency, uint256 amountPaid);
 
+event Close(uint256 id);
+
 contract Core {}
