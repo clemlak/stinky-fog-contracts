@@ -4,3 +4,13 @@ out = "out"
 libs = ["lib"]
 remappings = ["@solady/=lib/solady/src/"]
 solc_version = "0.8.27"
+
+[fmt]
+bracket_spacing = true
+int_types = 'long'
+line_length = 100
+multiline_func_header = 'params_first'
+number_underscore = 'thousands'
+quote_style = 'double'
+tab_width = 4
+wrap_comments = false
