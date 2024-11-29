@@ -18,4 +18,15 @@ struct Kontract {
     Status status;
 }
 
+event Create(
+    uint256 id,
+    address indexed creator,
+    address indexed worker,
+    address escrow,
+    address indexed currency,
+    uint256 amount
+);
+
+event Pay(uint256 id, address indexed creator, address indexed worker, address indexed currency, uint256 amountPaid);
+
 contract Core {}
