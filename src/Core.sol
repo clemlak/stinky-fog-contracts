@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
 
-import {SafeTransferLib} from "@solady/utils/SafeTransferLib.sol";
+import { SafeTransferLib } from "@solady/utils/SafeTransferLib.sol";
 
 enum Status {
     Open,
@@ -29,7 +29,13 @@ event Create(
     uint256 amount
 );
 
-event Pay(uint256 id, address indexed creator, address indexed worker, address indexed currency, uint256 amountPaid);
+event Pay(
+    uint256 id,
+    address indexed creator,
+    address indexed worker,
+    address indexed currency,
+    uint256 amountPaid
+);
 
 event Close(uint256 id);
 
@@ -44,11 +50,14 @@ error InvalidMsgValue();
 contract Core {
     Kontract[] public kontracts;
 
-    function create(address creator, address worker, address escrow, address currency, uint256 amount, uint256 deadline)
-        external
-        payable
-        returns (uint256 id)
-    {
+    function create(
+        address creator,
+        address worker,
+        address escrow,
+        address currency,
+        uint256 amount,
+        uint256 deadline
+    ) external payable returns (uint256 id) {
         if (creator == worker || creator == escrow || worker == escrow) revert InvalidActors();
 
         if (amount == 0) revert InvalidAmount();
@@ -81,7 +90,9 @@ contract Core {
         return kontracts.length;
     }
 
-    function getKontract(uint256 kontractId) external view returns (Kontract memory) {
+    function getKontract(
+        uint256 kontractId
+    ) external view returns (Kontract memory) {
         return kontracts[kontractId];
     }
 }

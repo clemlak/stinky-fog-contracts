@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
 
-import {Script, console} from "forge-std/Script.sol";
-import {Core} from "src/Core.sol";
+import { Script, console } from "forge-std/Script.sol";
+import { Core } from "src/Core.sol";
 
 contract CoreScript is Script {
     Core public core;
 
-    function setUp() public {}
+    function setUp() public { }
 
     function run() public {
         vm.startBroadcast();
