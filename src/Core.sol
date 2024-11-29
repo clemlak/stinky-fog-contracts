@@ -74,6 +74,10 @@ contract Core {
             revert InvalidMsgValue();
         }
 
+        if (currency != address(0)) {
+            SafeTransferLib.safeTransferFrom(currency, msg.sender, address(this), amount);
+        }
+
         return kontracts.length;
     }
 
