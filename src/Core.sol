@@ -31,6 +31,12 @@ event Pay(uint256 id, address indexed creator, address indexed worker, address i
 
 event Close(uint256 id);
 
+error InvalidActors();
+
+error InvalidAmount();
+
+error InvalidDeadline();
+
 contract Core {
     Kontract[] public kontracts;
 
@@ -38,6 +44,12 @@ contract Core {
         external
         returns (uint256 id)
     {
+        if (creator == worker || creator == escrow || worker == escrow) revert InvalidActors();
+
+        if (amount == 0) revert InvalidAmount();
+
+        if (block.timestamp > deadline) revert InvalidDeadline();
+
         kontracts.push(
             Kontract({
                 creator: creator,
