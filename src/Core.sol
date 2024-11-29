@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
 
+import {SafeTransferLib} from "@solady/utils/SafeTransferLib.sol";
+
 enum Status {
     Open,
     Disputed,
@@ -37,11 +39,14 @@ error InvalidAmount();
 
 error InvalidDeadline();
 
+error InvalidMsgValue();
+
 contract Core {
     Kontract[] public kontracts;
 
     function create(address creator, address worker, address escrow, address currency, uint256 amount, uint256 deadline)
         external
+        payable
         returns (uint256 id)
     {
         if (creator == worker || creator == escrow || worker == escrow) revert InvalidActors();
@@ -62,6 +67,8 @@ contract Core {
                 status: Status.Open
             })
         );
+
+        if (currency == address(0) && msg.value != amount) revert InvalidMsgValue();
 
         return kontracts.length;
     }
