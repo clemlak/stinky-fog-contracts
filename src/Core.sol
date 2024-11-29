@@ -68,7 +68,11 @@ contract Core {
             })
         );
 
-        if (currency == address(0) && msg.value != amount) revert InvalidMsgValue();
+        if (currency == address(0) && msg.value != amount) {
+            revert InvalidMsgValue();
+        } else if (currency != address(0) && msg.value > 0) {
+            revert InvalidMsgValue();
+        }
 
         return kontracts.length;
     }
