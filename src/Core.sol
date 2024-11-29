@@ -34,6 +34,26 @@ event Close(uint256 id);
 contract Core {
     Kontract[] public kontracts;
 
+    function create(address creator, address worker, address escrow, address currency, uint256 amount, uint256 deadline)
+        external
+        returns (uint256 id)
+    {
+        kontracts.push(
+            Kontract({
+                creator: creator,
+                worker: worker,
+                escrow: escrow,
+                currency: currency,
+                amount: amount,
+                amountPaid: 0,
+                deadline: deadline,
+                status: Status.Open
+            })
+        );
+
+        return kontracts.length;
+    }
+
     function getKontract(uint256 kontractId) external view returns (Kontract memory) {
         return kontracts[kontractId];
     }
