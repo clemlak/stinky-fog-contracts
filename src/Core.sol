@@ -31,4 +31,10 @@ event Pay(uint256 id, address indexed creator, address indexed worker, address i
 
 event Close(uint256 id);
 
-contract Core {}
+contract Core {
+    Kontract[] public kontracts;
+
+    function getKontract(uint256 kontractId) external view returns (Kontract memory) {
+        return kontracts[kontractId];
+    }
+}
