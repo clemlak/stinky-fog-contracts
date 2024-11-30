@@ -47,6 +47,8 @@ error InvalidDeadline();
 
 error InvalidMsgValue();
 
+error KontractNotOpen();
+
 contract Core {
     Kontract[] public kontracts;
 
@@ -88,6 +90,26 @@ contract Core {
         }
 
         return kontracts.length;
+    }
+
+    function pay(uint256 id, uint256 amount) external {
+        require(kontracts[id].status == Status.Open, KontractNotOpen());
+        require(
+            amount > 0 && amount <= kontracts[id].amount - kontracts[id].amountPaid, InvalidAmount()
+        );
+
+        kontracts[id].amountPaid += amount;
+
+        SafeTransferLib.safeTransfer(
+            kontracts[id].currency, kontracts[id].worker, kontracts[id].amount
+        );
+
+        emit Pay(id, kontracts[id].creator, kontracts[id].worker, kontracts[id].currency, amount);
+
+        if (kontracts[id].amountPaid == kontracts[id].amount) {
+            kontracts[id].status = Status.Closed;
+            emit Close(id);
+        }
     }
 
     function getKontract(
